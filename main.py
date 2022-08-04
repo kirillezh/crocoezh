@@ -35,6 +35,16 @@ def keyboard_add():
     keyboard.add(*buttons)
     return keyboard
 
+#Info
+@dp.message_handler(commands=['info'])
+async def info(message: types.Message):
+    with open("info.json", "r") as file:
+        lines =file.readlines()
+        text = ''
+        for line in lines:
+            text += line
+        await message.reply(text, disable_web_page_preview=True)
+
 @dp.message_handler(commands=['game'])
 async def process_start_command(message: types.Message):
     data = session.read_data()
@@ -57,6 +67,7 @@ async def process_start_command(message: types.Message):
             await message.reply(f"{localisation['error']} \n {KeyError}", parse_mode=types.ParseMode.HTML)
     else:
         await message.reply(localisation['notchat'])
+
 
 @dp.callback_query_handler(game.filter(action=["see_word"]))
 async def see_word(call: types.CallbackQuery):

@@ -33,7 +33,7 @@ class Function:
     def random_word(self):
         file = open("croco.txt", "r")
         lines = file.readlines()
-        return lines[random.randint(0, 81561)].strip()
+        return lines[random.randint(0, 82492)].strip()
 
     def new_word(self):
         data = session.read_data()
