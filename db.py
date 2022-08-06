@@ -6,9 +6,9 @@ class DBHelper:
         self.dbname = dbname
         self.conn = sqlite3.connect(dbname)
 
-    def new_user(self, id_user, name_user):
-        stmt = "INSERT INTO statistic (id_user, name_user, answer) VALUES (?, ?, 1)"
-        args = (id_user, name_user, )
+    def new_user(self, id_user, name_user, answer):
+        stmt = "INSERT INTO statistic (id_user, name_user, answer) VALUES (?, ?, ?)"
+        args = (id_user, name_user, answer)
         self.conn.execute(stmt, args)
         self.conn.commit()
 
