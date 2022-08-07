@@ -1,5 +1,0 @@
-TOKEN = 
-
-MY_CHAT = 
-
-TIME_DELTA = 300
