@@ -59,7 +59,7 @@ async def game_start(message: types.Message):
     #load session
     data = session.read_data()
     #check if the right chat
-    if(data['id_chat'] == message.chat.id):
+    if(int(message.chat.id) == int(data['id_chat'])):
         #check if can start a new game (not old session or time is over)
         if(data['id_user'] == 0 or not function.time_checker(data['time']) or data['word'] == ''):
             #new player
@@ -79,7 +79,7 @@ async def rating(message: types.Message):
     #load session
     data = session.read_data()
     #check if the right chat
-    if(data['id_chat'] == message.chat.id):
+    if(int(message.chat.id) == int(data['id_chat'])):
         #try get top of user or send error message
         try:
             await message.reply(f"<b>{localisation['top']}</b> 🦔 \n\n{function.get_top()}", parse_mode=types.ParseMode.HTML)    
@@ -95,7 +95,7 @@ async def see_word(call: types.CallbackQuery):
     #load session
     data = session.read_data()
     #check if the right chat
-    if(call.from_user.id == data['id_user']):
+    if(int(call.from_user.id) == int(data['id_user'])):
         await call.answer(data['word'], show_alert=True)
     else:
         #send that this is not the right chat 
@@ -107,7 +107,7 @@ async def next_word(call: types.CallbackQuery):
     #load session
     data = session.read_data()
     #check if the right chat
-    if(call.from_user.id == data['id_user']):
+    if(int(call.from_user.id) == int(data['id_user'])):
         await call.answer(function.new_word(), show_alert=True)
     else:
         #send that this is not the right chat 
