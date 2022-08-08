@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 
 #import .env file
 load_dotenv()
-TOKEN = int(os.getenv('TOKEN'))
-TIME_DELTA = os.getenv('TIME_DELTA')
+TOKEN = os.getenv('TOKEN')
+TIME_DELTA = int(os.getenv('TIME_DELTA'))
 
 #import Function
 from function import Function
@@ -120,28 +120,36 @@ async def message_find(message: types.Message):
     #load session
     data = session.read_data()
     #check if the right chat
-    if(message.chat.id == data['id_chat']):
-        #data cleaning and standardization
-        made_text = re.sub('ё', 'е', message.text.lower())
-        made_text = re.sub('ъ', 'ь', made_text)
-        word_text = re.sub('ё', 'е', data['word'])
-        word_text = re.sub('ъ', 'ь', word_text)
-        #check if this word is right
-        if(word_text in made_text):
-            #check if answer is not from the presenter
-            if(message.from_user.id != data['id_user']):
-                #new player
-                function.update_user(message.from_user.id, data['id_chat']) 
-                #add +1 to rating
-                function.db_update_user(message.from_user.id, message.from_user.full_name) 
-                #Send celebration
-                await message.reply( f"{random.sample(localisation['win'], k=1)[0]} <b>{data['word']}</b>", parse_mode=types.ParseMode.HTML)
-                #Send a new word
-                await message.answer(f"<a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['describe_word']}", reply_markup=keyboard_add(), parse_mode=types.ParseMode.HTML)
-            else:
-                #add -1 to rating and angry message)
-                function.db_user_downgrade(message.from_user.id, message.from_user.full_name) 
-                await message.reply( localisation['angry'], parse_mode=types.ParseMode.HTML)
+    if(int(message.chat.id) == int(data['id_chat'])):
+        
+        if(message.from_user.id == data['id_user']):
+            function.update_time()
+        #split text to each word
+        split_text = message.text.lower().split()
+        for i in split_text:
+            #data cleaning and standardization
+            made_text = re.sub('[^\w-]', '', i)
+            made_text = re.sub('[\d_]', '', made_text)
+            made_text = re.sub('ё', 'е', made_text)
+            made_text = re.sub('ъ', 'ь', made_text)
+            word_text = re.sub('ё', 'е', data['word'])
+            word_text = re.sub('ъ', 'ь', word_text)
+            #check if this word is right
+            if(word_text == made_text):
+                #check if answer is not from the presenter
+                if(message.from_user.id != data['id_user']):
+                    #Send celebration
+                    await message.reply( f"{random.sample(localisation['win'], k=1)[0]} <b>{data['word']}</b> \n{localisation['win_s'][0]} {math.floor(function.delta_time(data['time']))} {localisation['win_s'][1]}", parse_mode=types.ParseMode.HTML)
+                    #add +1 to rating
+                    function.db_update_user(message.from_user.id, message.from_user.full_name) 
+                    #new player
+                    function.update_user(message.from_user.id, data['id_chat']) 
+                    #Send a new word
+                    await message.answer(f"<a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['describe_word']}", reply_markup=keyboard_add(), parse_mode=types.ParseMode.HTML)
+                else:
+                    #add -1 to rating and angry message)
+                    function.db_user_downgrade(message.from_user.id, message.from_user.full_name) 
+                    await message.reply( localisation['angry'], parse_mode=types.ParseMode.HTML)
 
 if __name__ == '__main__':
     #start session

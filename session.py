@@ -10,7 +10,8 @@ data = {
     'id_user': 0,
     'id_chat': MY_CHAT,
     'word': '',
-    'time': '2016-Aug-04 08:24:38'
+    'time': '2016-Aug-04 08:24:38',
+    "update": False
 }
 
 #new SessionHelper

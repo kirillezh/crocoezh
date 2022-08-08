@@ -1,2 +1,5 @@
-
 .env
+crocoezh.code-workspace
+__pycache__
+*.sqlite3
+data.pickle
