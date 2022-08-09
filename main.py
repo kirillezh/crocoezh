@@ -63,7 +63,7 @@ async def game_start(message: types.Message):
         #check if can start a new game (not old session or time is over)
         if(data['id_user'] == 0 or not function.time_checker(data['time']) or data['word'] == ''):
             #new player
-            function.update_user(message.from_user.id, data['id_chat']) 
+            function.update_user(message.from_user.id, message.from_user.first_name, data['id_chat']) 
             #send a word 
             await message.answer(f"<a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['describe_word']}", reply_markup=keyboard_add(), parse_mode=types.ParseMode.HTML)
         else: 
@@ -121,7 +121,6 @@ async def message_find(message: types.Message):
     data = session.read_data()
     #check if the right chat
     if(int(message.chat.id) == int(data['id_chat'])):
-        
         if(message.from_user.id == data['id_user']):
             function.update_time()
         #split text to each word
@@ -139,11 +138,13 @@ async def message_find(message: types.Message):
                 #check if answer is not from the presenter
                 if(message.from_user.id != data['id_user']):
                     #Send celebration
-                    await message.reply( f"{random.sample(localisation['win'], k=1)[0]} <b>{data['word']}</b> \n{localisation['win_s'][0]} {math.floor(function.delta_time(data['time']))} {localisation['win_s'][1]}", parse_mode=types.ParseMode.HTML)
+                    await message.reply(
+                        f"{random.sample(localisation['win'], k=1)[0]} <a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['win_l'][0]} <b>{data['word']}</b> {localisation['win_l'][1]} <a href='tg://user?id={data['id_user']}'>{data['name_user']}</a> {localisation['win_l'][2]} {math.floor(function.delta_time(data['time']))} {localisation['win_l'][3]}",
+                        parse_mode=types.ParseMode.HTML)
                     #add +1 to rating
                     function.db_update_user(message.from_user.id, message.from_user.full_name) 
                     #new player
-                    function.update_user(message.from_user.id, data['id_chat']) 
+                    function.update_user(message.from_user.id, message.from_user.first_name, data['id_chat'] ) 
                     #Send a new word
                     await message.answer(f"<a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['describe_word']}", reply_markup=keyboard_add(), parse_mode=types.ParseMode.HTML)
                 else:

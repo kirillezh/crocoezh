@@ -8,8 +8,9 @@ MY_CHAT = int(os.getenv('MY_CHAT'))
 #basic data in session
 data = {
     'id_user': 0,
+    'name_user': '',
     'id_chat': MY_CHAT,
-    'word': '',
+    'word': '_',
     'time': '2016-Aug-04 08:24:38',
     "update": False
 }

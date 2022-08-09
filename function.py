@@ -54,10 +54,11 @@ class Function:
         return data['word'] 
 
 
-    def update_user(self, user, chat):
+    def update_user(self, user, name, chat):
         #Load new word to session
         data = session.read_data()
         data['id_user'] = user
+        data['name_user'] = name
         data['id_chat'] = MY_CHAT
         data['word'] = self.random_word()
         data['time'] = datetime.now().strftime('%Y-%b-%d %H:%M:%S')
