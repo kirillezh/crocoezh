@@ -4,9 +4,10 @@
     "command": {
         "start": "Типо начал, блять, ебаться",
         "game": "игра... поразительно?",
-        "rating": "на каком же ты месте, болван?"
+        "rating": "на каком же ты месте, болван?",
+        "stop": "остановите эту игру, бляяяяяяя!"
     },
-    "version": "1.1.0",
+    "version": "1.1.0(1)",
     "github": "https://github.com/kirillezh/crocoezh",
     "project_name": "crocoezh",
     "telegram": "https://t.me/crocoezh_bot"
