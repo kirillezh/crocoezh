@@ -73,6 +73,32 @@ async def game_start(message: types.Message):
         #send that this is not the right chat 
         await message.reply(localisation['notchat'])
 
+#stop game
+@dp.message_handler(commands=['stop'])
+async def rating(message: types.Message):
+    #load session
+    data = session.read_data()
+    #check if the right chat
+    if(int(message.chat.id) == int(data['id_chat'])):
+        #check if this right user
+        if(int(message.from_user.id) == int(data['id_user'])):
+            function.reset_user()
+            me = await bot.get_me()
+            await message.reply( f"{localisation['reset']} /game@{me.username}", parse_mode=types.ParseMode.HTML)
+        else:
+            await message.reply(localisation['reset_error'])
+    else:
+        #send that this is not the right chat 
+        await message.reply(localisation['notchat'])
+
+#rating player
+@dp.message_handler(commands=['data'])
+async def rating(message: types.Message):
+    #load session
+    data = session.read_data()
+    #check if the right chat
+    await message.reply(data)
+
 #rating player
 @dp.message_handler(commands=['rating'])
 async def rating(message: types.Message):
@@ -149,13 +175,19 @@ async def message_find(message: types.Message):
                     await message.answer(f"<a href='{message.from_user.url}'>{message.from_user.first_name}</a> {localisation['describe_word']}", reply_markup=keyboard_add(), parse_mode=types.ParseMode.HTML)
                 else:
                     #add -1 to rating and angry message)
-                    function.db_user_downgrade(message.from_user.id, message.from_user.full_name) 
-                    await message.reply( localisation['angry'], parse_mode=types.ParseMode.HTML)
+                    me = await bot.get_me()
+                    if(not data['warning']):
+                        function.db_user_downgrade(message.from_user.id, message.from_user.full_name) 
+                        function.warning_user()
+                        await message.reply( localisation['angry'], parse_mode=types.ParseMode.HTML)
+                    else:
+                        function.reset_user()
+                        await message.reply( f"{localisation['reset']} /game@{me.username}", parse_mode=types.ParseMode.HTML)
 
 if __name__ == '__main__':
     #start session
     session.start_session()
     #start bot
-    executor.start_polling(dp)
+    executor.start_polling(dp, skip_updates=True)
     
     

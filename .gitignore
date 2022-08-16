@@ -1,6 +1,6 @@
 .env
 crocoezh.code-workspace
 __pycache__
-*.sqlite3
+Crocostat.sqlite3
 data.pickle
 __pycache__

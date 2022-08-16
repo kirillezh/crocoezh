@@ -50,6 +50,7 @@ class Function:
         data = session.read_data()
         data['word'] = self.random_word()
         data['time'] = datetime.now().strftime('%Y-%b-%d %H:%M:%S')
+        data['update'] = False
         session.load_data(data)
         return data['word'] 
 
@@ -63,23 +64,33 @@ class Function:
         data['word'] = self.random_word()
         data['time'] = datetime.now().strftime('%Y-%b-%d %H:%M:%S')
         data['update'] = False
+        data['warning'] = False
         session.load_data(data)
     
     def update_time(self):
         #Load new word to session
         data = session.read_data()
-        if( not data['update']):
+        if(not data['update']):
             data['time'] = datetime.now().strftime('%Y-%b-%d %H:%M:%S')
             data['update'] = True
             session.load_data(data)
+    
+    def warning_user(self):
+        #Warning to reset
+        data = session.read_data()
+        data['warning'] = True
+        session.load_data(data)
+
+    def reset_user(self):
+        session.reset_data()
 
     def db_update_user(self, user, name):
         #Update user to database with +1
         data = db.find_user(user)
         if(data == None):
-            db.new_user(user, name, 0)
+            db.new_user(user, name, 1)
         else:
-            db.update_user(user, name, data[1]+1)
+            db.update_user(user, name, max(data[1]+1, 0))
 
     def db_user_downgrade(self, user, name):
         #Update user to database with -1
@@ -87,4 +98,4 @@ class Function:
         if(data == None):
             db.new_user(user, name, -1)
         else:
-            db.update_user(user, name, data[1]-1)
+            db.update_user(user, name, max(data[1]-1, -1))

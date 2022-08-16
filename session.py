@@ -12,7 +12,8 @@ data = {
     'id_chat': MY_CHAT,
     'word': '_',
     'time': '2016-Aug-04 08:24:38',
-    "update": False
+    "update": False,
+    "warning": False
 }
 
 #new SessionHelper
@@ -36,3 +37,7 @@ class SessionHelper:
         with open('data.pickle', 'rb') as f:
             data_new = pickle.load(f)
         return data_new
+
+    def reset_data(self):
+        with open('data.pickle', 'wb') as f:
+            pickle.dump(data, f)
