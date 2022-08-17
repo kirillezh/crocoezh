@@ -4,3 +4,4 @@ __pycache__
 Crocostat.sqlite3
 data.pickle
 __pycache__
+.DS_Store
