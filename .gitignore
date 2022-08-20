@@ -1,7 +1,6 @@
 .env
 crocoezh.code-workspace
 __pycache__
-Crocostat.sqlite3
+Crocostat.db
 data.pickle
-__pycache__
 .DS_Store

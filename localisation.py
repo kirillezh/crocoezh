@@ -104,5 +104,31 @@ localisation = {
         "angry": "-1 分, 你是个傻逼🤬 再试一次, 游戏将会被重置",
         "reset": "游戏已经重置了, 写一下来开始游戏",
         "reset_error": "游戏只能被领队重置"
+    },
+    "de":{
+        'start1': 'Schreib',
+        'start2': 'um die Spiel zu starten:)',
+        'see_word': 'Sehe das Wort 🦔',
+        'next_word': 'Nächstes Wort ➡️',
+        'describe_word': "beschreibt das Wort",
+        'win': [
+            'Du bist so intelligent, ',
+            'Du bist so gut, ',
+            'Du bist so groß, '
+        ],
+        'win_l': [
+            'Du hast das Wort richtig geschrieben',
+            'in',
+            'Sekunden'
+        ],
+        "notleading": "Du bist kein Leiter",
+        "top": "Die Top-Spieler in Crocojoe",
+        "notchat": "Das Spiel funktioniert nur in einem Chat, und in einem)",
+        "error": "Fehler Score",
+        "gamestart_1": "Das Spiel ist bereits gestartet! Warte",
+        "gamestart_2": "Minuten",
+        "angry": "-1 Score, du bist so dumm🤬 Versuche es noch einmal und das Spiel wird zurückgesetzt",
+        "reset": "Das Spiel ist zurückgesetzt, schreibe, um das Spiel zu starten",
+        "reset_error": "Das Spiel kann nur von einem Leiter zurückgesetzt werden"
     }
 }

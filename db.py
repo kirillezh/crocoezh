@@ -2,10 +2,17 @@ import sqlite3
 
 #new DBHelper
 class DBHelper:
-    def __init__(self, dbname="Crocostat.sqlite3"):
+    def __init__(self, dbname="Crocostat.db"):
         #connect database
         self.dbname = dbname
         self.conn = sqlite3.connect(dbname)
+        self.create_table()
+
+    def create_table(self):
+        #create table
+        stmt = "CREATE TABLE IF NOT EXISTS statistic (id INTEGER PRIMARY KEY AUTOINCREMENT, id_user bigint, name_user varchar, answer int)"
+        self.conn.execute(stmt)
+        self.conn.commit()
 
     def new_user(self, id_user, name_user, answer):
         #add new user
