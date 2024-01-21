@@ -13,7 +13,9 @@ data = {
     'word': '_',
     'time': '2016-Aug-04 08:24:38',
     "update": False,
-    "warning": False
+    "warning": False,
+    "language": "ua",
+    "language_words": "ua"
 }
 
 #new SessionHelper

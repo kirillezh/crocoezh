@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 MY_CHAT = os.getenv('MY_CHAT')
 TIME_DELTA = int(os.getenv('TIME_DELTA'))
-FILE = os.getenv('WORDFILE')
+#FILE = os.getenv('WORDFILE')
 
 #import SessionHelper
 from session import SessionHelper
@@ -40,9 +40,15 @@ class Function:
         else:
             return False
 
+    def file_words(self):
+        data = session.read_data()
+        if(data['language_words'] == 'ru'):
+            return 'croco_ru.txt'
+        else:
+            return 'croco_ua.txt'
     def random_word(self):
         #new random word from database
-        file = open(FILE, "r")
+        file = open(self.file_words(), "r")
         lines = file.readlines()
         return lines[random.randint(0, len(lines)-1)].strip()
 
@@ -83,7 +89,19 @@ class Function:
         session.load_data(data)
 
     def reset_user(self):
-        session.reset_data()
+        data = session.read_data()
+        data['id_user'] = 0
+        data['name_user'] = ''
+        data['word'] = ''
+        data['time'] = datetime.now().strftime('%Y-%b-%d %H:%M:%S')
+        data['update'] = False
+        data['warning'] = False
+        session.load_data(data)
+
+    def update_data(self, id, data_new):
+        data = session.read_data()
+        data[id] = data_new
+        session.load_data(data)
 
     def db_update_user(self, user, name):
         #Update user to database with +1
